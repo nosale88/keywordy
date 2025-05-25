@@ -18,9 +18,20 @@ export default async function handler(req, res) {
     const clientId = process.env.NAVER_CLIENT_ID;
     const clientSecret = process.env.NAVER_CLIENT_SECRET;
 
+    console.log('Environment variables check:', {
+      hasClientId: !!clientId,
+      hasClientSecret: !!clientSecret,
+      allEnvKeys: Object.keys(process.env).filter(key => key.includes('NAVER'))
+    });
+
     if (!clientId || !clientSecret) {
       return res.status(500).json({ 
-        error: 'API credentials not configured'
+        error: 'API credentials not configured',
+        debug: {
+          hasClientId: !!clientId,
+          hasClientSecret: !!clientSecret,
+          availableEnvKeys: Object.keys(process.env).filter(key => key.includes('NAVER'))
+        }
       });
     }
 

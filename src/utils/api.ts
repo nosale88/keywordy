@@ -2,7 +2,7 @@ import axios from 'axios';
 import { SearchResult, ContentType } from '../types';
 
 const API_BASE = import.meta.env.PROD 
-  ? '/.netlify/functions/search'
+  ? '/api/search'
   : '/api/search';
 
 export async function searchNaver(query: string, contentType: ContentType = 'all', page: number = 1): Promise<SearchResult[]> {

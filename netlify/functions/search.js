@@ -33,15 +33,28 @@ exports.handler = async (event, context) => {
     }
 
     // Get API credentials from environment variables
-    const clientId = process.env.NAVER_CLIENT_ID;
-    const clientSecret = process.env.NAVER_CLIENT_SECRET;
+    const clientId = process.env.NAVER_CLIENT_ID || process.env.VITE_NAVER_CLIENT_ID;
+    const clientSecret = process.env.NAVER_CLIENT_SECRET || process.env.VITE_NAVER_CLIENT_SECRET;
+
+    console.log('Environment check:', {
+      hasClientId: !!clientId,
+      hasClientSecret: !!clientSecret,
+      envKeys: Object.keys(process.env).filter(key => key.includes('NAVER'))
+    });
 
     if (!clientId || !clientSecret) {
       console.error('Missing Naver API credentials');
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'API credentials not configured' }),
+        body: JSON.stringify({ 
+          error: 'API credentials not configured',
+          debug: {
+            hasClientId: !!clientId,
+            hasClientSecret: !!clientSecret,
+            availableEnvKeys: Object.keys(process.env).filter(key => key.includes('NAVER'))
+          }
+        }),
       };
     }
 

@@ -15,8 +15,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'query parameter is required' });
     }
 
-    const clientId = process.env.NAVER_CLIENT_ID;
-    const clientSecret = process.env.NAVER_CLIENT_SECRET;
+    const clientId = process.env.NAVER_CLIENT_ID || process.env.VITE_NAVER_CLIENT_ID;
+    const clientSecret = process.env.NAVER_CLIENT_SECRET || process.env.VITE_NAVER_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
       return res.status(500).json({ 
